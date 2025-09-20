@@ -1,127 +1,127 @@
 import { useState, useMemo } from 'react';
 import { Search, UserPlus, X, ChevronLeft, ChevronRight, MoreHorizontal, Edit, Trash2, Eye, Clock, User, TrendingUp, ArrowRightLeft, Package, Hash, DollarSign, Settings } from 'lucide-react';
 
+// Move tableData outside the component to avoid recreation on every render
+const tableData = [
+  {
+    id: 1,
+    time: '09:30:15',
+    client: 'John Smith',
+    ticker: 'AAPL',
+    side: 'BUY',
+    product: 'Stock',
+    executed: 150,
+    total: 200,
+    price: '$175.50'
+  },
+  {
+    id: 2,
+    time: '09:32:45',
+    client: 'Sarah Johnson',
+    ticker: 'GOOGL',
+    side: 'SELL',
+    product: 'Stock',
+    executed: 75,
+    total: 100,
+    price: '$2,450.25'
+  },
+  {
+    id: 3,
+    time: '09:35:12',
+    client: 'Mike Chen',
+    ticker: 'TSLA',
+    side: 'BUY',
+    product: 'Options',
+    executed: 50,
+    total: 50,
+    price: '$245.75'
+  },
+  {
+    id: 4,
+    time: '09:38:30',
+    client: 'Emily Davis',
+    ticker: 'MSFT',
+    side: 'BUY',
+    product: 'Stock',
+    executed: 200,
+    total: 250,
+    price: '$378.90'
+  },
+  {
+    id: 5,
+    time: '09:42:18',
+    client: 'Robert Wilson',
+    ticker: 'AMZN',
+    side: 'SELL',
+    product: 'Stock',
+    executed: 25,
+    total: 30,
+    price: '$3,125.40'
+  },
+  {
+    id: 6,
+    time: '09:45:55',
+    client: 'Lisa Anderson',
+    ticker: 'META',
+    side: 'BUY',
+    product: 'Options',
+    executed: 100,
+    total: 150,
+    price: '$325.80'
+  },
+  {
+    id: 7,
+    time: '09:48:22',
+    client: 'David Brown',
+    ticker: 'NFLX',
+    side: 'SELL',
+    product: 'Stock',
+    executed: 80,
+    total: 100,
+    price: '$445.60'
+  },
+  {
+    id: 8,
+    time: '09:52:10',
+    client: 'Jennifer Taylor',
+    ticker: 'NVDA',
+    side: 'BUY',
+    product: 'Stock',
+    executed: 60,
+    total: 75,
+    price: '$875.25'
+  },
+  {
+    id: 9,
+    time: '09:55:33',
+    client: 'Michael Garcia',
+    ticker: 'AMD',
+    side: 'BUY',
+    product: 'Options',
+    executed: 120,
+    total: 120,
+    price: '$115.90'
+  },
+  {
+    id: 10,
+    time: '09:58:45',
+    client: 'Anna Martinez',
+    ticker: 'INTC',
+    side: 'SELL',
+    product: 'Stock',
+    executed: 300,
+    total: 350,
+    price: '$45.75'
+  }
+];
+
 export default function DataTable() {
   const [searchTerm, setSearchTerm] = useState('');
   const [userInput, setUserInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
-  // Mock data
-  const tableData = [
-    {
-      id: 1,
-      time: '09:30:15',
-      client: 'John Smith',
-      ticker: 'AAPL',
-      side: 'BUY',
-      product: 'Stock',
-      executed: 150,
-      total: 200,
-      price: '$175.50'
-    },
-    {
-      id: 2,
-      time: '09:32:45',
-      client: 'Sarah Johnson',
-      ticker: 'GOOGL',
-      side: 'SELL',
-      product: 'Stock',
-      executed: 75,
-      total: 100,
-      price: '$2,450.25'
-    },
-    {
-      id: 3,
-      time: '09:35:12',
-      client: 'Mike Chen',
-      ticker: 'TSLA',
-      side: 'BUY',
-      product: 'Options',
-      executed: 50,
-      total: 50,
-      price: '$245.75'
-    },
-    {
-      id: 4,
-      time: '09:38:30',
-      client: 'Emily Davis',
-      ticker: 'MSFT',
-      side: 'BUY',
-      product: 'Stock',
-      executed: 200,
-      total: 250,
-      price: '$378.90'
-    },
-    {
-      id: 5,
-      time: '09:42:18',
-      client: 'Robert Wilson',
-      ticker: 'AMZN',
-      side: 'SELL',
-      product: 'Stock',
-      executed: 25,
-      total: 30,
-      price: '$3,125.40'
-    },
-    {
-      id: 6,
-      time: '09:45:55',
-      client: 'Lisa Anderson',
-      ticker: 'META',
-      side: 'BUY',
-      product: 'Options',
-      executed: 100,
-      total: 150,
-      price: '$325.80'
-    },
-    {
-      id: 7,
-      time: '09:48:22',
-      client: 'David Brown',
-      ticker: 'NFLX',
-      side: 'SELL',
-      product: 'Stock',
-      executed: 80,
-      total: 100,
-      price: '$445.60'
-    },
-    {
-      id: 8,
-      time: '09:52:10',
-      client: 'Jennifer Taylor',
-      ticker: 'NVDA',
-      side: 'BUY',
-      product: 'Stock',
-      executed: 60,
-      total: 75,
-      price: '$875.25'
-    },
-    {
-      id: 9,
-      time: '09:55:33',
-      client: 'Michael Garcia',
-      ticker: 'AMD',
-      side: 'BUY',
-      product: 'Options',
-      executed: 120,
-      total: 120,
-      price: '$115.90'
-    },
-    {
-      id: 10,
-      time: '09:58:45',
-      client: 'Anna Martinez',
-      ticker: 'INTC',
-      side: 'SELL',
-      product: 'Stock',
-      executed: 300,
-      total: 350,
-      price: '$45.75'
-    }
-  ];
-
-  // Filter data based on search term
+  // Filter data based on search term - now dependency array is correct
   const filteredData = useMemo(() => {
     if (!searchTerm) return tableData;
     
@@ -130,7 +130,7 @@ export default function DataTable() {
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
-  }, [searchTerm]);
+  }, [searchTerm]); // Only searchTerm is needed since tableData is now static
 
   // Pagination logic
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
